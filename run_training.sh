@@ -1,0 +1,1 @@
+python3 src/main.py -c="configs/default.yaml" -np=".../DS_10283_2791/noisy_trainset_28spk_wav" -cp="...DS_10283_2791/clean_trainset_28spk_wav" -g=1
