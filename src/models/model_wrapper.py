@@ -166,8 +166,7 @@ class DemucsDenoiserWrapper(pl.LightningModule):
         self.log("val-mrstft_loss", mrstft_loss.detach().item())
         self.log("val-l1_loss", l1_loss.detach().item())
 
-        # Log audios only on the last validation step
-        if batch_idx == len(self.val_dataloader()) - 1:
+        if batch_idx == self.config["val_size"] - 1:
             audio_examples = []
             audio_examples.append(wandb.Audio(target[0].squeeze(0).cpu().numpy(), caption='target_wav', sample_rate=self.config.data.sampling_rate))
             audio_examples.append(wandb.Audio(noisy[0].squeeze(0).cpu().numpy(), caption='noisy_wav', sample_rate=self.config.data.sampling_rate))

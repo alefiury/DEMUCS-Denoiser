@@ -21,8 +21,8 @@ class ChuncksDataset(torch.utils.data.Dataset):
         clean_base_dir: str = None,
     ):
         self.filenames = filenames
-        self.max_length = max_length * target_samplig_rate
-        self.stride = stride * target_samplig_rate
+        self.max_length = max_length
+        self.stride = stride
         self.pad = pad
         self.target_samplig_rate = target_samplig_rate
         self.noisy_base_dir = noisy_base_dir
@@ -72,6 +72,9 @@ class ChuncksDataset(torch.utils.data.Dataset):
             samples = torchaudio.transforms.Resample(sr, self.target_samplig_rate)(samples)
             sr = self.target_samplig_rate
 
+        # if num_frames is 0, then we want the whole audio
+        if num_frames == 0:
+            num_frames = samples.shape[-1]
         # Trim the audio to the desired length
         samples = samples[..., int(frame_offset): int(frame_offset + num_frames)]
 
